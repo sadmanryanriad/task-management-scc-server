@@ -52,6 +52,19 @@ async function run() {
         const result = await taskCollections.deleteOne({_id: new ObjectId(id)});
         res.send(result);
     })
+    //patch task status
+    app.patch('/tasks', async(req,res)=>{
+        const id = req.query.id;
+        const status = req.query.status;
+        const filter = {_id: new ObjectId(id)};
+        const updatedDoc = {
+          $set: {
+            status: status
+          }
+        }
+        const result = await taskCollections.updateOne(filter,updatedDoc);
+        res.send(result);
+      })
 
   } finally {
     // Ensures that the client will close when you finish/error
