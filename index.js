@@ -34,6 +34,18 @@ async function run() {
         const result = await taskCollections.insertOne(task);
         res.send(result);
     })
+    // get all task data
+    app.get('/tasks', async(req,res)=>{
+        const email = req.query.email;
+
+        if (email) {
+          const result = await taskCollections.find({ email: email }).toArray();
+          res.send(result);
+        } else {
+          const result = await taskCollections.find().toArray();
+          res.send(result);
+        }
+    })
 
   } finally {
     // Ensures that the client will close when you finish/error
